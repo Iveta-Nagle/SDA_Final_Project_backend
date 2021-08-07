@@ -6,6 +6,8 @@ import com.company.mapper.MapperMediator;
 import com.company.model.Account;
 import com.company.model.Card;
 import com.company.service.AccountService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +15,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/rest/Account.svc")
-
 public class AccountController {
+
+    private Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     private MapperMediator mapperMediator;
 
@@ -76,6 +80,23 @@ public class AccountController {
         }
         return accountDTOList;
     }
+
+    @PutMapping("/account/{accountId}/card/{cardId}/add")
+    public void addCardToAccount(@PathVariable long accountId,  @PathVariable long cardId){
+        logger.warn("A WARN message");
+        logger.info("A INFO message");
+        logger.trace("A TRACE message");
+        logger.error("A ERROR message");
+        logger.debug("A DEBUG message");
+        accountService.addCardToAccount(accountId, cardId);
+    }
+
+    @PutMapping("/account/remove/{cardId}")
+    public void removeCardFromAccount(@PathVariable long cardId){
+        accountService.removeCardFromAccount(cardId);
+    }
+
+
 
 
 }

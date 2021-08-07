@@ -4,6 +4,7 @@ import com.company.model.Account;
 import com.company.model.Card;
 import com.company.repository.AccountRepository;
 import com.company.repository.CardRepository;
+import com.company.validator.CardValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +18,13 @@ public class AccountService {
 
     private CardRepository cardRepository;
 
+    private CardValidator cardValidator;
+
     @Autowired
-    public AccountService(AccountRepository accountRepository, CardRepository cardRepository) {
+    public AccountService(AccountRepository accountRepository, CardRepository cardRepository, CardValidator cardValidator) {
         this.accountRepository = accountRepository;
         this.cardRepository = cardRepository;
+        this.cardValidator = cardValidator;
     }
 
     public List<Account> getAllAccounts(){
@@ -41,6 +45,7 @@ public class AccountService {
 
     public void addCardToAccount(long accountId, long cardId){
         Account account = accountRepository.getById(accountId);
+        cardValidator.checkMaxCardAmount(account);
         Card card = cardRepository.getById(cardId);
         account.getCards().add(card);
         accountRepository.save(account);

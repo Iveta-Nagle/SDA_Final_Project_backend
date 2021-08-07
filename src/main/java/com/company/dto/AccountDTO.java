@@ -6,14 +6,19 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 public class AccountDTO {
 
     private long id;
 
+    @Size(min = 3, max = 15, message="Account number min is 3, max 15")
     private String accountNumber;
 
+    @Pattern(regexp = "^(?!IRR|NKW|irr|nkw).*$", message = "Currency can't be IRR or NKW")
+    @Size(min = 3, max = 3)
     private String currency;
 
     private double ballance;

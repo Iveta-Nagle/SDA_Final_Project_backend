@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,10 @@ public class AccountController {
     }
 
     @PostMapping("/account")
-    public AccountDTO addAccount(@RequestBody AccountDTO accountDTO){
+    public AccountDTO addAccount(@Valid @RequestBody AccountDTO accountDTO){
+        if (accountDTO.getAccountNumber().length() !=21){
+            throw new RuntimeException("Account number has to be 21 characters long!");
+        }
         Account account = mapperMediator.getAccountMapper().fromDTO(accountDTO);
         Account savedAccount = accountService.saveAccount(account);
         AccountDTO savedAccountDTO =  mapperMediator.getAccountMapper().toDTO(savedAccount);

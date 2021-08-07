@@ -1,6 +1,8 @@
 package com.company.dto;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Date;
 
@@ -9,10 +11,14 @@ public class CardDTO {
 
     private long id;
 
+    @JsonProperty("card_holder")
     private String cardHolder;
 
+    @JsonProperty("card_number")
     private String cardNumber;
 
+    @JsonProperty("exp_date")
+    @JsonFormat(pattern="dd.MM.YYYY")
     private Date expDate;
 
     @JsonBackReference
